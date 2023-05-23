@@ -1,31 +1,41 @@
 package com.booking.airlinebookingsystem.entities;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.Map;
 
 @Entity
-
-public class Flight {
+public class Flights {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private String to;
-    private String from;
+    private String src;
+    private String dest;
     private int time;
 
-    public Flight(int id, String name, String to, String from, int time) {
-        this.id = id;
-        this.name = name;
-        this.to = to;
-        this.from = from;
-        this.time = time;
+    @OneToOne
+    @JoinColumn(name = "seat_types_id")
+    private SeatTypes seatTypes;
+
+    @OneToMany(mappedBy = "flight") //mappedBy will create flight_id table in tickets
+    private List<Bookings> tickets;
+
+    @ManyToMany(mappedBy = "flights") //a new table will create with user_id and flight_id column for this mapping
+    private List<User> users;
+
+    public Flights() {
     }
 
-    public Flight() {
+    public Flights(int id, String name, String src, String dest, int time, SeatTypes seatTypes, List<Bookings> tickets, List<User> users) {
+        this.id = id;
+        this.name = name;
+        this.src = src;
+        this.dest = dest;
+        this.time = time;
+        this.seatTypes = seatTypes;
+        this.tickets = tickets;
+        this.users = users;
     }
 
     public int getId() {
@@ -44,20 +54,20 @@ public class Flight {
         this.name = name;
     }
 
-    public String getTo() {
-        return to;
+    public String getSrc() {
+        return src;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setSrc(String src) {
+        this.src = src;
     }
 
-    public String getFrom() {
-        return from;
+    public String getDest() {
+        return dest;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setDest(String dest) {
+        this.dest = dest;
     }
 
     public int getTime() {
@@ -68,14 +78,41 @@ public class Flight {
         this.time = time;
     }
 
+    public SeatTypes getSeatTypes() {
+        return seatTypes;
+    }
+
+    public void setSeatTypes(SeatTypes seatTypes) {
+        this.seatTypes = seatTypes;
+    }
+
+    public List<Bookings> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Bookings> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public String toString() {
-        return "Flight{" +
+        return "Flights{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", to='" + to + '\'' +
-                ", from='" + from + '\'' +
+                ", src='" + src + '\'' +
+                ", dest='" + dest + '\'' +
                 ", time=" + time +
+                ", seatTypes=" + seatTypes +
+                ", tickets=" + tickets +
+                ", users=" + users +
                 '}';
     }
 }
