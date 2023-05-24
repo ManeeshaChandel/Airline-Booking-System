@@ -1,5 +1,8 @@
 package com.booking.airlinebookingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,14 +17,18 @@ public class Flights {
     private String dest;
     private int time;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL) //we are using cascade bcz we need to make object of SeatTypes before object of Book
+                                       //through this we will get seat_types_id which is required in Flight table as a foreign key(bcz of OnetoOne mapping)
     @JoinColumn(name = "seat_types_id")
+    @JsonManagedReference
     private SeatTypes seatTypes;
 
     @OneToMany(mappedBy = "flight") //mappedBy will create flight_id table in tickets
+    @JsonBackReference
     private List<Bookings> tickets;
 
     @ManyToMany(mappedBy = "flights") //a new table will create with user_id and flight_id column for this mapping
+    @JsonBackReference
     private List<User> users;
 
     public Flights() {

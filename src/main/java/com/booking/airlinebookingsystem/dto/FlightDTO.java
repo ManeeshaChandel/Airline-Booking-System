@@ -1,14 +1,14 @@
-package com.booking.airlinebookingsystem.entities;
+package com.booking.airlinebookingsystem.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.booking.airlinebookingsystem.entities.SeatTypes;
 import jakarta.persistence.*;
 
-@Entity
-public class SeatTypes {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+public class FlightDTO {
+    private String name;
+    private String src;
+    private String dest;
+    private int time;
+
     private int totalEconomySeats;
     private int availableEconomySeats;
     private int totalFirstClassSeats;
@@ -16,37 +16,52 @@ public class SeatTypes {
     private int totalBusinessClassSeats;
     private int availableBusinessClassSeats;
 
-    @OneToOne(mappedBy = "seatTypes") //mappedBy will create seat_id table in flight
-    //The error message indicates that a "detached entity" of type SeatTypes is being passed to the persist method,
-    // which is causing the exception.
-    // In JPA (Java Persistence API), an entity is considered "detached"
-    // when it's not associated with a persistence context
-    // (typically a database session).
-    @JsonBackReference
-    private Flights flight;
-
-    // Constructors, getters, and setters
-
-    public SeatTypes() {
+    public FlightDTO() {
     }
 
-    public SeatTypes(int id, int totalEconomySeats, int availableEconomySeats, int totalFirstClassSeats, int availableFirstClassSeats, int totalBusinessClassSeats, int availableBusinessClassSeats, Flights flight) {
-        this.id = id;
+    public FlightDTO(String name, String src, String dest, int time, int totalEconomySeats, int availableEconomySeats, int totalFirstClassSeats, int availableFirstClassSeats, int totalBusinessClassSeats, int availableBusinessClassSeats) {
+        this.name = name;
+        this.src = src;
+        this.dest = dest;
+        this.time = time;
         this.totalEconomySeats = totalEconomySeats;
         this.availableEconomySeats = availableEconomySeats;
         this.totalFirstClassSeats = totalFirstClassSeats;
         this.availableFirstClassSeats = availableFirstClassSeats;
         this.totalBusinessClassSeats = totalBusinessClassSeats;
         this.availableBusinessClassSeats = availableBusinessClassSeats;
-        this.flight = flight;
     }
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
+    public String getDest() {
+        return dest;
+    }
+
+    public void setDest(String dest) {
+        this.dest = dest;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
 
     public int getTotalEconomySeats() {
@@ -97,18 +112,13 @@ public class SeatTypes {
         this.availableBusinessClassSeats = availableBusinessClassSeats;
     }
 
-    public Flights getFlight() {
-        return flight;
-    }
-
-    public void setFlight(Flights flight) {
-        this.flight = flight;
-    }
-
     @Override
     public String toString() {
-        return "SeatTypes{" +
-                "id=" + id +
+        return "FlightDTO{" +
+                "name='" + name + '\'' +
+                ", src='" + src + '\'' +
+                ", dest='" + dest + '\'' +
+                ", time=" + time +
                 ", totalEconomySeats=" + totalEconomySeats +
                 ", availableEconomySeats=" + availableEconomySeats +
                 ", totalFirstClassSeats=" + totalFirstClassSeats +
@@ -118,4 +128,3 @@ public class SeatTypes {
                 '}';
     }
 }
-

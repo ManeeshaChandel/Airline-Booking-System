@@ -1,5 +1,7 @@
 package com.booking.airlinebookingsystem.controllers;
 
+import com.booking.airlinebookingsystem.dto.BookingDTO;
+import com.booking.airlinebookingsystem.dto.UserDTO;
 import com.booking.airlinebookingsystem.entities.Flights;
 import com.booking.airlinebookingsystem.entities.Bookings;
 import com.booking.airlinebookingsystem.entities.User;
@@ -17,8 +19,8 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/register")
-    public ResponseEntity<Void> SaveUser(@RequestBody User user){
-        int response=userService.saveData(user);
+    public ResponseEntity<Void> SaveUser(@RequestBody UserDTO userDTO){
+        int response=userService.saveData(userDTO);
         if(response==0) return ResponseEntity.status(HttpStatus.CREATED).build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
@@ -30,8 +32,10 @@ public class UserController {
     }
 
     @PostMapping("/booking")
-    public ResponseEntity<Void> SaveUser(@RequestBody Bookings bookings){
-        int response=userService.saveBooking(bookings);
+    public ResponseEntity<Void> SaveUser(@RequestBody BookingDTO bookingDto){
+       // System.out.println(bookings.getFlight().getId());
+        int response=userService.saveBooking(bookingDto);
+        System.out.println(response);
         if(response==1) return ResponseEntity.status(HttpStatus.CREATED).build();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }

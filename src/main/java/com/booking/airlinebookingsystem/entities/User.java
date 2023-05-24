@@ -1,5 +1,8 @@
 package com.booking.airlinebookingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,8 +16,10 @@ public class User {
     private String password;
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) //mappedBy will create user_id table in tickets
+    @OneToMany(mappedBy = "user") //mappedBy will create user_id table in tickets
+    @JsonBackReference
     private List<Bookings> tickets;
+
 
     @ManyToMany
     @JoinTable(
@@ -22,6 +27,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "flight_id")
     )
+    @JsonManagedReference
     private List<Flights> flights;
 
     //constructors and all...

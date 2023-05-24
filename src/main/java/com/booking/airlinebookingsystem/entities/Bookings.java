@@ -1,5 +1,9 @@
 package com.booking.airlinebookingsystem.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,10 +17,12 @@ public class Bookings {
 
     @ManyToOne
     @JoinColumn(name = "flight_id")
+    @JsonManagedReference
     private Flights flight;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
     // Constructors, getters, and setters
@@ -78,8 +84,6 @@ public class Bookings {
                 "id=" + id +
                 ", seatNumber=" + seatNumber +
                 ", seatType='" + seatType + '\'' +
-                ", flight=" + flight +
-                ", user=" + user +
                 '}';
     }
 }
